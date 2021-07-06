@@ -6,6 +6,8 @@ The client, Steve, originally requested a way to analyse a stocks performance in
 
 using code and images and headesr for different sections
 
+Both hardcoded lists are quicker by 0.01sec - but dynamic list is more scalable.
+
 # Summary
 ### What are the advantages or disadvantages of refactoring code?
 The advantages of refactoring code is that the basis of the code is there and existing functionality is operating as expected. Due to this we only need to write and append new code for the newly added functionality, it can make the enhancement of code much more simple. We can also reduce complexities within the code while further optimizing how the code operates. 
