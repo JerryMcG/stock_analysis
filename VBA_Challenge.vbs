@@ -1,5 +1,6 @@
-Attribute VB_Name = "Module311"
-Sub AllStocksAnalysisRefactored()
+Attribute VB_Name = "Module4"
+
+Sub AllStocksAnalysisRefactoredDynamic()
     Dim startTime As Single
     Dim endTime  As Single
 
@@ -19,30 +20,17 @@ Sub AllStocksAnalysisRefactored()
 
     'Initialize array of all tickers
     Dim tickers(12) As String
-    
-    tickers(0) = "AY"
-    tickers(1) = "CSIQ"
-    tickers(2) = "DQ"
-    tickers(3) = "ENPH"
-    tickers(4) = "FSLR"
-    tickers(5) = "HASI"
-    tickers(6) = "JKS"
-    tickers(7) = "RUN"
-    tickers(8) = "SEDG"
-    tickers(9) = "SPWR"
-    tickers(10) = "TERP"
-    tickers(11) = "VSLR"
-    
+       
     'Activate data worksheet
     Worksheets(yearValue).Activate
     
     'Get the number of rows to loop over
     RowCount = Cells(Rows.Count, "A").End(xlUp).Row
-    
+       
     '1a) Create a ticker Index
     Dim tickerIndex As Integer
-    Dim tickerIndexMax As Integer
     tickerIndex = 0
+    Dim tickerIndexMax As Integer
     tickerIndexMax = 11
        
     '1b) Create three output arrays
@@ -50,13 +38,27 @@ Sub AllStocksAnalysisRefactored()
     Dim tickerStartingPrices(12) As Single
     Dim tickerEndingPrices(12) As Single
 
+    'looping through ticker data to read and store values for tickers()
+    'have removed the static list
+    For j = 2 To RowCount
+    'check if this is the first row with this ticker - if so, add to array
+    If Cells(j - 1, 1).Value <> Cells(j, 1).Value Then
+     tickers(tickerIndex) = Cells(j, 1).Value
+     tickerIndex = tickerIndex + 1
+     End If
+    Next j
+    
+    'resetting tickerIndex to 0 for next loops
+    tickerIndex = 0
+    
     '2a) Create a for loop to initialize the tickerVolumes to zero.
     For i = tickerIndex To tickerIndexMax
-     Ticker = tickers(i)
-     tickerVolumes(i) = 0
-     
+     Ticker = tickers(tickerIndex)
+     tickerVolumes(tickerIndex) = 0
+        
     '2b) Loop over all the rows in the spreadsheet.
       For j = 2 To RowCount
+
         '3a) Increase volume for current ticker
         If Cells(j, 1).Value = Ticker Then
          tickerVolumes(tickerIndex) = tickerVolumes(tickerIndex) + Cells(j, 8).Value
@@ -116,4 +118,21 @@ Sub AllStocksAnalysisRefactored()
     endTime = Timer
     MsgBox "This code ran in " & (endTime - startTime) & " seconds for the year " & (yearValue)
 
+End Sub
+
+Sub thisisgoingtowork()
+Dim tickers(12) As String
+Dim tickerIndex As Integer
+Worksheets("2017").Activate
+tickerIndex = 0
+For j = 2 To 3013
+  'check if this is the first row with this ticker - if so, add to array
+    If Cells(j - 1, 1).Value <> Cells(j, 1).Value Then
+          tickers(tickerIndex) = Cells(j, 1).Value
+          tickerIndex = tickerIndex + 1
+    End If
+Next j
+For i = 0 To 11
+    Debug.Print tickers(i) 'prints first value(hardcoded) and then blank
+Next i
 End Sub
